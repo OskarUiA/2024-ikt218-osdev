@@ -63,12 +63,25 @@ add_executable(uiaos-kernel
     src/kernel.cpp
 	src/libc/stdio.cpp
 	src/libc/string.c
+	src/libc/panic.c
+	src/libc/system.c
+
     gdt/gdt.cpp
     gdt/gdt.asm
+
+	idt/idt.c
+	src/irq.c
+	src/screen.cpp
+	src/isr.c
+	src/isr_asm.asm
+	idt/idt.asm
+
+	src/input.c
+
 )
 
 # Include directories for the kernel target
-target_include_directories(uiaos-kernel PUBLIC include gdt)
+target_include_directories(uiaos-kernel PUBLIC include gdt idt)
 
 
 # Specify compile options for C and C++
