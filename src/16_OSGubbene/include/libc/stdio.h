@@ -20,6 +20,8 @@ int putchar(int ic);
 // but printf already does this, so its not very useful considering the size of our project and what we print
 bool print(const char* data, size_t length);
 
+void scroll_screen();
+
 // Creating an extern "C" block to prevent name mangling, which breaks the linker to .c files such as kernel.c
 // Allowing us to use printf in .c files
 #ifdef __cplusplus
