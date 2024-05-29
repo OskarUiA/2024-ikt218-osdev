@@ -1,8 +1,40 @@
 extern "C"{
     #include "libc/system.h"
-    #include "../include/libc/stdio.h"
+    #include "memory.h"
+    #include "pit.h"
+    #include "libc/stdio.h"
     #include "interrupts.h"
     #include "input.h"
+}
+
+
+// Existing global operator new overloads
+void* operator new(size_t size) {
+    return malloc(size);
+}
+
+void* operator new[](size_t size) {
+    return malloc(size);
+}
+
+// Existing global operator delete overloads
+void operator delete(void* ptr) noexcept {
+    free(ptr);
+}
+
+void operator delete[](void* ptr) noexcept {
+    free(ptr);
+}
+
+// Add sized-deallocation functions
+void operator delete(void* ptr, size_t size) noexcept {
+    (void)size; // Size parameter is unused, added to match required signature
+    free(ptr);
+}
+
+void operator delete[](void* ptr, size_t size) noexcept {
+    (void)size; // Size parameter is unused, added to match required signature
+    free(ptr);
 }
 
 
@@ -46,9 +78,7 @@ int kernel_main(){
 
     }, NULL);
 
-    // Trigger interrupts to test handlers
-    asm volatile ("int $0x3");
-    asm volatile ("int $0x4");
+    
 
     // Enable interrupts
     asm volatile("sti");
@@ -65,8 +95,9 @@ int kernel_main(){
         asm volatile("cli");
     }, NULL);
 
+
      while(true) {
-        // Kernel main tasks
+    
     }
 
     // This part will not be reached
