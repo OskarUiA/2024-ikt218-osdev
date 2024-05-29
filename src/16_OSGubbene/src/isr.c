@@ -1,8 +1,12 @@
 // Based on the teachers solution guide file isr.c
 
-#include "../include/interrupts.h"
-#include "../include/libc/stdint.h"
-#include "../include/libc/stddef.h"
+//#include "../include/interrupts.h"
+//#include "../include/libc/stdint.h"
+//#include "../include/libc/stddef.h"
+
+#include "interrupts.h"
+#include "libc/stdint.h"
+#include "libc/stddef.h"
 
 
 void register_interrupt_handler(uint8_t n, isr_t handler, void* context)

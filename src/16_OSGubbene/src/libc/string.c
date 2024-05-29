@@ -1,6 +1,5 @@
-#include "../../include/libc/string.h"
-#include "../../include/libc/stdarg.h"
-#include "../../include/libc/system.h"
+#include "libc/system.h"
+#include "libc/stdarg.h"
 
 char* hex32_to_str(char buffer[], unsigned int val)
 {
@@ -31,13 +30,10 @@ char* int32_to_str(char buffer[], int val)
 	return buffer;
 }
 
-
-
-// Function calculates the length of a null-terminated string by checking for the null-terminator
 size_t strlen(const char* str) {
-    size_t length = 0;
-    while (str[length] != '\0') {
-        length++;
-    }
-    return length;
+	size_t len = 0;
+	while (str[len])
+		len++;
+	return len;
 }
+

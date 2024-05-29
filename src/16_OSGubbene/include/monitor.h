@@ -1,7 +1,13 @@
-#ifndef SCREEN_H
-#define SCREEN_H
+// monitor.h -- Defines the interface for monitor.h
+//              From JamesM's kernel development tutorials.
 
+#ifndef MONITOR_H
+#define MONITOR_H
+
+#include "common.h"
 #include "libc/stdint.h"
+#include "libc/stddef.h"
+
 
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
@@ -20,4 +26,5 @@ void move_cursor_to_next_line();
 // Function to advance the cursor
 void advance_cursor();
 
-#endif // SCREEN_H
+
+#endif // MONITOR_H

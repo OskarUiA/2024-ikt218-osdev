@@ -1,5 +1,3 @@
-// Based on the teachers solution guide file panic.c
-
 #include "libc/system.h"
 #include "libc/stdarg.h"
 

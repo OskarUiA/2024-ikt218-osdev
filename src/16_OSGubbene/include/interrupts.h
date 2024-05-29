@@ -1,11 +1,8 @@
-// Based on the teachers solution guide file interrupts.h
-
 #ifndef INTERRUPTS_H
 #define INTERRUPTS_H
 
 #include "libc/stdint.h"
-#include "libc/stdio.h"
-#include "../idt/idt.h"
+#include "descriptor_tables.h"
 
 #define ISR1 1
 #define ISR2 2
@@ -142,4 +139,13 @@ static struct int_handler_t irq_handlers[IRQ_COUNT];
 
 
 #define IRQ_COUNT 16
+
+
+
+
+
+
+
+
+
 #endif

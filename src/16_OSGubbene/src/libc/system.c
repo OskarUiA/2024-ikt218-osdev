@@ -1,5 +1,3 @@
-// Based on the teachers solution guide file system.c
-
 #include "libc/system.h"
 
 __attribute__((noreturn)) void panic(const char*);
@@ -25,3 +23,4 @@ void _exit(int status)
     panic(buffer);
     __builtin_unreachable();
 }
+

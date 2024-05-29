@@ -1,6 +1,23 @@
+// monitor.c -- Defines functions for writing to the monitor.
+//             heavily based on Bran's kernel development tutorials,
+//             but rewritten for JamesM's kernel tutorials.
+
+#include "monitor.h"
+#include "libc/system.h"
 #include "libc/stdio.h"
 #include "libc/stdint.h"
-#include "../include/screen.h"
+#include "common.h"
+
+
+
+// Define memory-mapped I/O address for VGA text mode buffer
+volatile unsigned short* VGA_BUFFER_SCREEN = (volatile unsigned short*)0xB8000;
+
+// Creates a vga entry which is used to print a character to the terminal 
+// using vga text mode buffer with set color and background color
+unsigned short vga_entry_screen(unsigned char u_char, unsigned char char_color, unsigned char bgcolor) {
+    return (unsigned short)u_char | (unsigned short)char_color << 8 | (unsigned short)bgcolor << 12;
+}
 
 // Function to update the hardware cursor position
 void update_cursor(int row, int col) {
@@ -32,12 +49,12 @@ void move_cursor_to_next_line() {
     col = 0;
     row++;
     if (row >= VGA_HEIGHT) {
-        row = 0;
+        row = 0; // Wrap around to the top
     }
     update_cursor(row, col);
 }
 
-// Function advances cursor by one cell (usually when the user types)
+// Functioin to advance the cursor by one cell (usually when the user types a character)
 void advance_cursor() {
     int row, col;
     get_cursor(&row, &col);

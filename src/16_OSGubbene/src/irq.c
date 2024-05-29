@@ -1,7 +1,5 @@
-// Based on the teachers solution guide file irq.c
-
-#include "../include/interrupts.h"
-#include "../include/libc/stdio.h"
+#include "interrupts.h"
+#include "common.h"
 
 // Initialize IRQ handlers
 void init_irq() {

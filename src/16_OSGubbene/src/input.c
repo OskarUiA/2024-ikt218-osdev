@@ -1,7 +1,5 @@
-// Based on the teachers solution guide file input.c
-
-#include "../include/input.h"
-#include "../include/libc/system.h"
+#include "input.h"
+#include "libc/system.h"
 
 
 bool capsEnabled = false;

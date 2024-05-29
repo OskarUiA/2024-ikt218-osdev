@@ -1,4 +1,7 @@
-#include "../../include/libc/stdio.h"
+#include "libc/stdio.h"
+
+
+
 
 
 // Define memory-mapped I/O address for VGA text mode buffer
@@ -30,6 +33,20 @@ unsigned short vga_entry(unsigned char u_char, unsigned char char_color, unsigne
     return (unsigned short) u_char | (unsigned short) char_color << 8 | (unsigned short) bgcolor << 12;
 }
 
+// Function to scroll the screen up by one line
+void scroll_screen() {
+    for (int i = 1; i < VGA_HEIGHT; i++) {
+        for (int j = 0; j < VGA_WIDTH; j++) {
+            VGA_BUFFER[(i - 1) * VGA_WIDTH + j] = VGA_BUFFER[i * VGA_WIDTH + j];
+        }
+    }
+    // Clear the last line
+    unsigned short blank = vga_entry(' ', VGA_COLOR_WHITE, VGA_COLOR_BLACK);
+    for (int j = 0; j < VGA_WIDTH; j++) {
+        VGA_BUFFER[(VGA_HEIGHT - 1) * VGA_WIDTH + j] = blank;
+    }
+}
+
 int putchar(int int_char) {
     int row, col;
     get_cursor(&row, &col);
@@ -38,9 +55,10 @@ int putchar(int int_char) {
         col = 0;
         row++;
         if (row >= VGA_HEIGHT) {
-            row = 0; // Wrap around
+            row--;
+            scroll_screen();
         }
-    } else if (int_char == '\b') { // Handle backspace
+    } else if (int_char == '\b') {
         if (col == 0) {
             if (row > 0) {
                 row--;
@@ -58,13 +76,14 @@ int putchar(int int_char) {
             col = 0;
             row++;
             if (row >= VGA_HEIGHT) {
-                row = 0; // Wrap around
+                row--;
+                scroll_screen();
             }
         }
     }
 
     update_cursor(row, col);
-    
+
     return int_char;
 }
 
@@ -160,6 +179,19 @@ int printf(const char* __restrict__ format_string, ...) {
                 }
                 break;
             }
+            case 'x': {
+                int int_value = va_arg(args, int);
+                char buffer[20]; // Enough to hold all numbers up to 64-bits
+                itoa(int_value, buffer, 16);
+                for (char *ptr = buffer; *ptr != '\0'; ptr++) {
+                    if (putchar(*ptr) == EOF) {
+                        va_end(args);
+                        return EOF;
+                    }
+                    printed++;
+                }
+                break;
+            }
             default: {
                 // If format string includes an unsupported format specifier, print the '%'
                 if (putchar('%') == EOF) {
@@ -184,21 +216,3 @@ int printf(const char* __restrict__ format_string, ...) {
     return printed;
 }
 
-extern "C" void outb(uint16_t port, uint8_t value)
-{
-    asm volatile ("outb %1, %0" : : "dN" (port), "a" (value));
-}
-
-extern "C" uint8_t inb(uint16_t port)
-{
-   uint8_t ret;
-   asm volatile("inb %1, %0" : "=a" (ret) : "dN" (port));
-   return ret;
-}
-
-extern "C" uint16_t inw(uint16_t port)
-{
-   uint16_t ret;
-   asm volatile ("inw %1, %0" : "=a" (ret) : "dN" (port));
-   return ret;
-}

@@ -1,4 +1,4 @@
-extern main
+extern kernel_main_c
 
 global _start
 
@@ -37,8 +37,7 @@ _start:
 	push ebx
 	push eax
 
-    call main ; Jump main function
-    hlt ; Ensures the program does not continue executing random memory for example main again as it did without hlt
+    call kernel_main_c ; Jump main function
 
 section .bss
 stack_bottom:

@@ -1,8 +1,6 @@
-// Based on the teachers solution guide file idt.c
-
-#include "idt.h"
+#include "descriptor_tables.h"
 #include "interrupts.h"
-#include "../include/libc/stdio.h"
+#include "common.h"
 
 
 extern void idt_flush(uint32_t);
@@ -28,13 +26,8 @@ void init_idt() {
 
   init_interrupts();
 
-  printf("Interrupts initialized\n");
-
   // Load the IDT
   idt_flush((uint32_t)&idt_ptr);
-
-    printf("Interrupts flushed\n");
-
   
 }
 
@@ -65,9 +58,6 @@ void init_interrupts(){
     outb(0xA1, 0x01);
     outb(0x21, 0x0);
     outb(0xA1, 0x0);
-
-
-    printf("Initializing interrupts\n");
 
     idt_set_gate( 0, (uint32_t)isr0 , 0x08, 0x8E);
     idt_set_gate( 1, (uint32_t)isr1 , 0x08, 0x8E);
