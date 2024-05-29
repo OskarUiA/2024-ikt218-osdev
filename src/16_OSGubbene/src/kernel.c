@@ -4,7 +4,7 @@
 #include "pit.h"
 #include "memory.h"
 #include "../gdt/gdt.h"
-#include "../idt/idt.h"
+#include "idt.h"
 #include <multiboot2.h>
 
 

@@ -1,6 +1,6 @@
 #include "libc/stdio.h"
 #include "libc/stdint.h"
-#include "../include/screen.h"
+#include "screen.h"
 
 
 // Define memory-mapped I/O address for VGA text mode buffer

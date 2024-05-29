@@ -1,7 +1,7 @@
 // Based on the teachers solution guide file irq.c
 
-#include "../include/interrupts.h"
-#include "../include/libc/stdio.h"
+#include "interrupts.h"
+#include "libc/stdio.h"
 
 // Initialize IRQ handlers
 void init_irq() {
@@ -14,8 +14,10 @@ void init_irq() {
 
 // Register an IRQ handler
 void register_irq_handler(int irq, isr_t handler, void* ctx) {
+  printf("Set irq: %d\n", irq);
   irq_handlers[irq].handler = handler;
   irq_handlers[irq].data = ctx;
+
 }
 
 // The main IRQ handler
