@@ -2,7 +2,7 @@
 
 #include "idt.h"
 #include "interrupts.h"
-#include "../include/libc/stdio.h"
+#include "libc/stdio.h"
 
 
 

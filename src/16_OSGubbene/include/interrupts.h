@@ -5,7 +5,7 @@
 
 #include "libc/stdint.h"
 #include "libc/stdio.h"
-#include "../idt/idt.h"
+#include "idt.h"
 
 #define ISR1 1
 #define ISR2 2
